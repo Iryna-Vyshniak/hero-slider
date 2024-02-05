@@ -16,7 +16,9 @@ html {
 
 body {
   margin: 0;
-  background-color: #000;
+  background-color: #00000091;
+  background: linear-gradient(to top, #000000e2 50%, transparent),
+    url(./images/animal_1.jpg) left center / cover fixed no-repeat;
   color: #eee;
   font-family: Poppins;
   font-size: 16px;
@@ -239,10 +241,16 @@ nav li > a:hover::after {
   height: 100%;
 
   overflow: hidden;
-  transition: all 500ms ease-in-out;
+  opacity: 0;
+  transition: all 1000ms ease-in-out;
 }
 
-.item::after {
+.item.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.item.active::after {
   content: '';
   position: absolute;
   left: 0;
@@ -252,7 +260,7 @@ nav li > a:hover::after {
   width: 100%;
   height: 100%;
 
-  background: rgba(13, 13, 13, 0.02);
+  background: rgba(13, 13, 13, 0);
   background: linear-gradient(
     0deg,
     rgba(13, 13, 13, 0.4) 4%,
@@ -261,10 +269,6 @@ nav li > a:hover::after {
     rgba(255, 254, 254, 0) 80%,
     rgba(11, 66, 61, 0.1) 100%
   );
-}
-
-.item:nth-child(1) {
-  z-index: 1;
 }
 
 .item img {
@@ -285,9 +289,11 @@ nav li > a:hover::after {
   justify-content: center;
   gap: 1rem;
 
+  margin: 0 auto;
+
   height: 40%;
-  width: 100%;
-  max-width: 100%;
+  width: 950%;
+  max-width: 95%;
 
   background: #70a6ad;
   background: linear-gradient(10deg, #48707538 0%, #ffffff2b 100%);
@@ -303,8 +309,6 @@ nav li > a:hover::after {
   gap: 1rem;
   padding-right: 20%;
   max-width: 1200px;
-
-  filter: brightness(1);
 }
 
 .title,
@@ -416,28 +420,28 @@ nav li > a:hover::after {
   }
 }
 
-.item:nth-child(1) .content .title,
-.item:nth-child(1) .content .topic,
-.item:nth-child(1) .content .desc,
-.item:nth-child(1) .buttons li {
+.carousel .list .item.active .content .title,
+.carousel .list .item.active .content .topic,
+.carousel .list .item.active .content .desc,
+.carousel .list .item.active .buttons li {
   transform: translateY(50px);
   filter: blur(50px);
   animation: showContent 1000ms linear 1 forwards;
 }
 
-.item:nth-child(1) .content .title {
+.carousel .list .item.active .content .title {
   animation-delay: showContent 250ms;
 }
 
-.item:nth-child(1) .content .topic {
+.carousel .list .item.active .content .topic {
   animation-delay: showContent 280ms;
 }
 
-.item:nth-child(1) .content .desc {
+.carousel .list .item.active .content .desc {
   animation-delay: showContent 300ms;
 }
 
-.item:nth-child(1) .buttons li {
+.carousel .list .item.active .buttons li {
   animation-delay: showContent 320ms;
 }
 
@@ -445,25 +449,39 @@ nav li > a:hover::after {
 
 .thumbnail {
   position: absolute;
-  bottom: 1%;
+  bottom: 0.5%;
   right: 1%;
   z-index: 1;
 
   display: flex;
-  gap: 20px;
+  justify-content: flex-end;
+  gap: 12px;
 
-  width: max-content;
+  width: 100%;
+  height: 220px;
+  padding: 0 8px;
+  overflow: auto;
+}
+
+.thumbnail::-webkit-scrollbar {
+  width: 0;
 }
 
 .thumbnail-item {
   position: relative;
-  flex-shrink: 1;
+  flex-shrink: 0;
 
-  width: 80px;
-  height: 120px;
+  width: 150px;
+  height: 200px;
 
+  filter: brightness(0.5);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.368);
   border-radius: 20px;
+  transition: all 250ms ease-in-out;
+}
+
+.thumbnail-item.active {
+  filter: brightness(1.5);
 }
 
 .thumbnail-item::after {
@@ -488,8 +506,7 @@ nav li > a:hover::after {
 .thumbnail-content {
   position: absolute;
   bottom: 10px;
-  left: 10px;
-  right: 10px;
+  inset: auto 10px 10px 10px;
   z-index: 1;
   color: #fff;
 }
@@ -545,6 +562,7 @@ nav li > a:hover::after {
     position: absolute;
     top: 5%;
     right: 1%;
+    z-index: 1000;
   }
 }
 
@@ -581,39 +599,34 @@ nav li > a:hover::after {
   }
 }
 
-.carousel.next .list .item:nth-child(1) img {
+.carousel.next .list .item img {
   position: absolute;
   bottom: 3%;
   left: 1%;
 
-  width: 80px;
-  height: 150px;
+  width: 150px;
+  height: 220px;
 
   border-radius: 30px;
+}
+
+.carousel.next .list .item img.show-animation {
   animation: showImage 1000ms linear 1 forwards;
 }
 
-@media screen and (min-width: 680px) {
-  .thumbnail-item {
-    width: 150px;
-    height: 220px;
-  }
-
-  .carousel.next .list .item:nth-child(1) img {
-    width: 150px;
-    height: 220px;
-  }
-}
-
 @media screen and (min-width: 980px) {
-  .thumbnail-item {
-    width: 250px;
-    height: 320px;
+  .thumbnail {
+    height: 310px;
   }
 
-  .carousel.next .list .item:nth-child(1) img {
+  .thumbnail-item {
     width: 250px;
-    height: 320px;
+    height: 300px;
+  }
+
+  .carousel.next .list .item img.show-animation {
+    width: 250px;
+    height: 300px;
   }
 }
 
@@ -633,11 +646,11 @@ nav li > a:hover::after {
 
 /* prev click */
 
-.carousel.prev .list .item:nth-child(2) {
+/* .carousel.prev .list .item:nth-child(2) {
   z-index: 2;
-}
+} */
 
-@keyframes outFrame {
+/* @keyframes outFrame {
   to {
     width: 0;
     height: 0;
@@ -649,7 +662,7 @@ nav li > a:hover::after {
   bottom: 0;
   left: 0;
   animation: outFrame 1000ms linear 1 forwards;
-}
+} */
 
 @keyframes showThumbnail {
   from {
@@ -669,7 +682,7 @@ nav li > a:hover::after {
   pointer-events: none;
 }
 
-@keyframes contentOut {
+/* @keyframes contentOut {
   to {
     transform: translateY(-150px);
     filter: blur(30px);
@@ -682,7 +695,7 @@ nav li > a:hover::after {
 .carousel.prev .list .item:nth-child(2) .content .desc,
 .carousel.prev .list .item:nth-child(2) .buttons {
   animation: contentOut 500ms linear 1 forwards;
-}
+} */
 
 /* running time */
 
